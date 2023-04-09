@@ -7,7 +7,7 @@ interface Action {
 export default function getActions(): Action[] {
     const actions: Action[] = [
         { label: 'Respawn', action: 'menu:respawn', hideUI: true },
-        { label: 'Heal', action: 'menu:heal', hideUI: true },
+        { label: 'Heal', action: 'menu:heal', hideUI: false },
         { label: 'Invincible', action: 'menu:invincible', hideUI: true },
         { label: 'Remove Wanted', action: 'menu:removeWanted', hideUI: true },
     ];
