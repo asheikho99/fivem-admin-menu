@@ -10,6 +10,7 @@ export default function getActions(): Action[] {
         { label: 'Heal', action: 'menu:heal', hideUI: false },
         { label: 'Invincible', action: 'menu:invincible', hideUI: true },
         { label: 'Remove Wanted', action: 'menu:removeWanted', hideUI: true },
+        { label: 'Resurrect Ped', action: 'menu:resurrectPedNetwork', hideUI: true },
     ];
 
     return actions;

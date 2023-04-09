@@ -44,7 +44,8 @@ RegisterNuiCallback('menu:invincible', (data: any, cb: ({}) => void) => {
     SetEntityInvincible(playerPed, !invincible);
     SetPedCanRagdoll(playerPed, !invincible);
     SetEntityAlpha(playerPed, invincible ? 255 : 153, false);
-
+    
+    cb({});
 });
 
 RegisterNuiCallback('menu:removeWanted', (data: any, cb: ({}) => void) => {
@@ -58,7 +59,7 @@ RegisterNuiCallback('menu:fixVehicle', (data: any, cb: ({}) => void) => {
     cb({});
 });
 
-RegisterNuiCallback('menu:respawnPed', (data: any, cb: ({}) => void) => {
+RegisterNuiCallback('menu:resurrectPedNetwork', (data: any, cb: ({}) => void) => {
     const [x, y, z] = GetEntityCoords(PlayerPedId(), true);
     NetworkResurrectLocalPlayer(x, y, z, 0, true, false);
     cb({});
