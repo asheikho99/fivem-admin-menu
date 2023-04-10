@@ -1,4 +1,11 @@
-console.log('Hello from client.ts');
+import { Respawn } from '../events/Respawn';
+import { Heal } from '../events/Heal';
+import { Invincible } from '../events/Invincible';
+import { VehicleFix } from '../events/VehicleFix';
+import { ResurrectPedNetwork } from '../events/ResurrectPedNetwork';
+import { WantedLevelClear } from '../events/WantedLevelClear';
+import { WantedLevelAdd } from '../events/WantedLevelAdd';
+import { WantedLevelRemove } from '../events/WantedLevelRemove';
 
 RegisterCommand(
     'menu',
@@ -12,55 +19,69 @@ RegisterCommand(
     false
 );
 
-RegisterNuiCallback('getClientData', (data: string, cb: ({}) => void) => {
-    const [x, y, z] = GetEntityCoords(PlayerPedId(), true);
-
-    cb({
-        x: x.toFixed(2),
-        y: y.toFixed(2),
-        z: z.toFixed(2),
-    });
-});
-
-RegisterNuiCallback('hideUI', (data: string, cb: ({}) => void) => {
-    cb({});
+RegisterNuiCallback('menu:hideUI', (data: string, cb: ({}) => void) => {
     SetNuiFocus(false, false);
 });
 
 RegisterNuiCallback('menu:respawn', (data: string, cb: ({}) => void) => {
-    SetEntityHealth(PlayerPedId(), 0);
-    cb({});
+    const respawn = new Respawn('menu:respawn', data, cb);
+    respawn.listen();
 });
 
 RegisterNuiCallback('menu:heal', (data: string, cb: ({}) => void) => {
-    SetEntityHealth(PlayerPedId(), 200);
-    cb({});
+    const heal = new Heal('menu:heal', data, cb);
+    heal.listen();
 });
 
 RegisterNuiCallback('menu:invincible', (data: string, cb: ({}) => void) => {
-    const playerPed = PlayerPedId();
-    const invincible = GetPlayerInvincible(PlayerId());
-
-    SetEntityInvincible(playerPed, !invincible);
-    SetPedCanRagdoll(playerPed, !invincible);
-    SetEntityAlpha(playerPed, invincible ? 255 : 153, false);
-    
-    cb({});
+    const invincible = new Invincible('menu:invincible', data, cb);
+    invincible.listen();
 });
 
-RegisterNuiCallback('menu:removeWanted', (data: string, cb: ({}) => void) => {
-    SetPlayerWantedLevel(PlayerId(), 0, false);
-    cb({});
+RegisterNuiCallback('menu:vehicleFix', (data: string, cb: ({}) => void) => {
+    const vehicleFix = new VehicleFix('menu:vehicleFix', data, cb);
+    vehicleFix.listen();
 });
 
-RegisterNuiCallback('menu:fixVehicle', (data: string, cb: ({}) => void) => {
-    const vehicle = GetVehiclePedIsIn(PlayerPedId(), false);
-    SetVehicleFixed(vehicle);
-    cb({});
+RegisterNuiCallback(
+    'menu:resurrectPedNetwork',
+    (data: string, cb: ({}) => void) => {
+        const resurrectPedNetwork = new ResurrectPedNetwork(
+            'menu:resurrectPedNetwork',
+            data,
+            cb
+        );
+        resurrectPedNetwork.listen();
+    }
+);
+
+RegisterNuiCallback(
+    'menu:wantedLevelClear',
+    (data: string, cb: ({}) => void) => {
+        const wantedLevelClear = new WantedLevelClear(
+            'wantedLevelClear',
+            data,
+            cb
+        );
+
+        wantedLevelClear.listen();
+    }
+);
+
+RegisterNuiCallback('menu:wantedLevelAdd', (data: string, cb: ({}) => void) => {
+    const wantedLevelAdd = new WantedLevelAdd('wantedLevelAdd', data, cb);
+    wantedLevelAdd.listen();
 });
 
-RegisterNuiCallback('menu:resurrectPedNetwork', (data: string, cb: ({}) => void) => {
-    const [x, y, z] = GetEntityCoords(PlayerPedId(), true);
-    NetworkResurrectLocalPlayer(x, y, z, 0, true, false);
-    cb({});
-});
+RegisterNuiCallback(
+    'menu:wantedLevelRemove',
+    (data: string, cb: ({}) => void) => {
+        const wantedLevelRemove = new WantedLevelRemove(
+            'wantedLevelRemove',
+            data,
+            cb
+        );
+
+        wantedLevelRemove.listen();
+    }
+);

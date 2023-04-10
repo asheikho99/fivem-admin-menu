@@ -17,7 +17,7 @@
   onMount(() => {
     const keyHandler = (e: KeyboardEvent) => {
       if (isVisible && ['Escape'].includes(e.code)) {
-        fetchNui('hideUI');
+        fetchNui('menu:hideUI');
         visibility.set(false);
       }
     };

@@ -14,6 +14,6 @@
 
         if (hideUI) {
             visibility.set(false);
-            fetchNui('hideUI');
+            fetchNui('menu:hideUI');
         }
     }}>{label}</button>
